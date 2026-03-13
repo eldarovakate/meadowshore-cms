@@ -16,7 +16,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.onrender.com",
 ]
 
-SECRET_KEY = os.environ.get("SECRET_KEY", SECRET_KEY)
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DATABASES = {
     "default": dj_database_url.config(
