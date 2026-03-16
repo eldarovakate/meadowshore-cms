@@ -33,8 +33,3 @@ USE_X_FORWARDED_HOST = True
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-
-try:
-    from .local import *
-except ImportError:
-    pass
