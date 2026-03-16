@@ -1,8 +1,9 @@
 from django.db import models
 
-from wagtail.models import Page
+from modelcluster.fields import ParentalKey
+from wagtail.models import Page, Orderable
 from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel
 
 
 class HomePage(Page):
@@ -72,6 +73,21 @@ class HomePage(Page):
         return context
 
 
+class ProductPageGalleryImage(Orderable):
+    page = ParentalKey(
+        "home.ProductPage",
+        on_delete=models.CASCADE,
+        related_name="gallery_images"
+    )
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        on_delete=models.CASCADE,
+        related_name="+"
+    )
+
+    panels = [FieldPanel("image")]
+
+
 class ProductPage(Page):
 
     price = models.DecimalField(
@@ -104,6 +120,7 @@ class ProductPage(Page):
         FieldPanel("price"),
         FieldPanel("description"),
         FieldPanel("main_image"),
+        InlinePanel("gallery_images", label="Дополнительные фото (до 3 шт.)"),
         FieldPanel("available_sizes"),
         FieldPanel("is_featured"),
     ]
